@@ -1,0 +1,11 @@
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\ConsoleApplication6.exe.config
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\ConsoleApplication6.XML
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\ConsoleApplication6.exe
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\ConsoleApplication6.pdb
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\FSharp.Core.dll
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\FSharp.Core.xml
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\ru\FSharp.Core.resources.dll
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\obj\Debug\ConsoleApplication6.exe
+c:\users\nbixman\documents\visual studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\obj\Debug\ConsoleApplication6.pdb
+C:\Users\nbIxMaN\Documents\Visual Studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\AIMLbot.dll
+C:\Users\nbIxMaN\Documents\Visual Studio 2013\Projects\ConsoleApplication6\ConsoleApplication6\bin\Debug\AIMLbot.pdb
