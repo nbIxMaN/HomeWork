@@ -24,7 +24,8 @@ let rec get_simv tree bits =
 
 let rec decode (tree: CodeTree)  (bits: Bit list) : char list = 
     match bits with
-    | head::tail -> get_simv tree list
+    | head::tail -> match get_simv tree bits with
+                    | (a,b) -> ['a'] @ decode tree b
     | [] -> []
 
 // encode
