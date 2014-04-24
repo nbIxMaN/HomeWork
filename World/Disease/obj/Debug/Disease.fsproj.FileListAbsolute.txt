@@ -1,0 +1,8 @@
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\Disease.XML
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\Disease.dll
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\Disease.pdb
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\FSharp.Core.dll
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\FSharp.Core.xml
+C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\ru\FSharp.Core.resources.dll
+C:\Users\I\SkyDrive\Документы\World\Disease\obj\Debug\Disease.dll
+C:\Users\I\SkyDrive\Документы\World\Disease\obj\Debug\Disease.pdb
