@@ -6,3 +6,11 @@ C:\Users\I\SkyDrive\Документы\World\Creatures\bin\Debug\FSharp.Core.xml
 C:\Users\I\SkyDrive\Документы\World\Creatures\bin\Debug\ru\FSharp.Core.resources.dll
 C:\Users\I\SkyDrive\Документы\World\Creatures\obj\Debug\Creatures.dll
 C:\Users\I\SkyDrive\Документы\World\Creatures\obj\Debug\Creatures.pdb
+C:\HomeWork\World\Creatures\bin\Debug\Creatures.XML
+C:\HomeWork\World\Creatures\bin\Debug\Creatures.dll
+C:\HomeWork\World\Creatures\bin\Debug\Creatures.pdb
+C:\HomeWork\World\Creatures\bin\Debug\FSharp.Core.dll
+C:\HomeWork\World\Creatures\bin\Debug\FSharp.Core.xml
+C:\HomeWork\World\Creatures\bin\Debug\ru\FSharp.Core.resources.dll
+C:\HomeWork\World\Creatures\obj\Debug\Creatures.dll
+C:\HomeWork\World\Creatures\obj\Debug\Creatures.pdb

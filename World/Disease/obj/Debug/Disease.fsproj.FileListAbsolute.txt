@@ -6,3 +6,11 @@ C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\FSharp.Core.xml
 C:\Users\I\SkyDrive\Документы\World\Disease\bin\Debug\ru\FSharp.Core.resources.dll
 C:\Users\I\SkyDrive\Документы\World\Disease\obj\Debug\Disease.dll
 C:\Users\I\SkyDrive\Документы\World\Disease\obj\Debug\Disease.pdb
+C:\HomeWork\World\Disease\bin\Debug\Disease.XML
+C:\HomeWork\World\Disease\bin\Debug\Disease.dll
+C:\HomeWork\World\Disease\bin\Debug\Disease.pdb
+C:\HomeWork\World\Disease\bin\Debug\FSharp.Core.dll
+C:\HomeWork\World\Disease\bin\Debug\FSharp.Core.xml
+C:\HomeWork\World\Disease\bin\Debug\ru\FSharp.Core.resources.dll
+C:\HomeWork\World\Disease\obj\Debug\Disease.dll
+C:\HomeWork\World\Disease\obj\Debug\Disease.pdb
