@@ -1,41 +1,18 @@
 ﻿namespace Creatures
 
-type IСCreatures = 
+type Creature(name:string) =
+    let mutable dead = false
     abstract member Die: unit -> unit
+    default x.Die() = dead <- true
+    member x.IsDie = dead
+    member x.Eat() = not x.IsDie
 
-type IСBadPeople =
-    abstract member Arrested: unit -> unit
-    abstract member GetOutOfJail: unit -> unit
+type Animal(name:string) =
+    inherit Creature(name)
+    member x.Play() = not x.IsDie
 
-type IСMurder =
-    inherit IСBadPeople
-    abstract member HideTheEvidence : IСPeople -> unit
-
-and IСPeople =
-    abstract member ChangeHealth: int -> unit 
-    abstract member ChangeMood: int -> unit
-    abstract member DieBy: IСMurder -> unit
-    abstract member ForgetKiller: unit -> unit
-
-
-type IСDoctor = 
-    abstract member Cure : IСPeople -> unit
-
-type СCreature(name:string) =
-    let mutable die = false
-    interface IСCreatures with
-        override x.Die() = die <- true
-    member x.IsDie = die
-    member x.Eat() = if x.IsDie then printfn "%s" "I die"
-                                else printfn "%s" "Om-nom-nom"
-
-type СAnimal(name:string) =
-    inherit СCreature(name)
-    member x.Play() = if x.IsDie then printfn "%s" "I die"
-                                 else printfn "%A" "playing"
-
-type СPeople(name:string) =
-    inherit СCreature(name)
+type People(name:string) =
+    inherit Creature(name)
     let mutable health = 500
     let mutable mood = 500
     let mutable killing = None
@@ -43,57 +20,61 @@ type СPeople(name:string) =
     member x.Health = health
     member x.Mood = mood
     member x.Killing = killing
-    interface IСPeople with
-        override x.ChangeHealth y = health <- y
-        override x.ChangeMood y = mood <- mood + y
-        override x.DieBy(men: IСMurder) = killing <- Some(ref men)
-                                          (x:>IСCreatures).Die()
-                                          health <- 0
-        override x.ForgetKiller() = killing <- None
-    abstract member GoDoctor: IСDoctor -> unit
-    override x.GoDoctor(men: IСDoctor) = men.Cure(x)
+    override x.Die() = x.Die()
+                       health <- 0
+    member x.ChangeHealth y = health <- health + y
+    member x.ChangeMood y = mood <- mood + y
+    member internal x.DieBy(men:People) = 
+        killing <- Some(ref men)
+        x.Die()
+        health <- 0
+    member internal x.ForgetKiller() = killing <- None
         
-type СBadPeople(name:string) =
-    inherit СPeople(name)
+type BadPeople(name:string) =
+    inherit People(name)
     let mutable InArrest = false
-    interface IСBadPeople with
-        override x.Arrested() = InArrest <- true
-        override x.GetOutOfJail() = InArrest <- false
+    member internal x.Arrested() = InArrest <- true
+    member internal  x.GetOutOfJail() = InArrest <- false
     member x.IsArrest = InArrest
-    member x.Offend(men:СPeople) = (men:>IСPeople).ChangeMood (men.Mood - 20)
+    member x.Offend(men:People) = men.ChangeMood (men.Mood - 20)
     
 
-type СMurder(name) = 
-    inherit СBadPeople(name)
+type Murder(name) = 
+    inherit BadPeople(name)
     let luck = new System.Random(name.GetHashCode())
-    interface IСMurder with
-        override x.HideTheEvidence(men:IСPeople) = men.ForgetKiller()
-    member x.Kill (men:IСPeople) = if x.IsArrest then printfn "%A" "Arrested"
-                                                 else men.DieBy(x)
-                                                      (x:>IСPeople).ChangeHealth 0
-                                                      if luck.Next(10) > 8 then (x:>IСMurder).HideTheEvidence(men)
+    member private x.HideTheEvidence(men:People) = men.ForgetKiller()
+    member x.Kill (men:People) = 
+        if x.IsArrest then printfn "%A" "Arrested"
+        else men.DieBy(x)
+             men.ChangeHealth 0
+             if luck.Next(10) > 8 then 
+                x.HideTheEvidence(men)
 
-type СBrawlers(name) =
-    inherit СBadPeople(name)
-    member x.Fight(men:СPeople) = (x:>IСPeople).ChangeHealth (x.Health - 50)
-                                  (men:>IСPeople).ChangeHealth (men.Health - 70)
+type Brawlers(name) =
+    inherit BadPeople(name)
+    member x.Fight(men:People) = 
+        x.ChangeHealth (x.Health - 50)
+        men.ChangeHealth (men.Health - 70)
 
-type СGoodPeople(name:string) =
-    inherit СPeople(name)
-    member x.CheerUp(men:СPeople) = (men:>IСPeople).ChangeMood (men.Mood + 20)
+type GoodPeople(name:string) =
+    inherit People(name)
+    member x.CheerUp(men:People) = men.ChangeMood (men.Mood + 20)
 
 
-type СCop(name:string) =
-    inherit СGoodPeople(name)
-    member x.Arrest(men:IСBadPeople) = men.Arrested()
-    member x.RidOfJail(men:IСBadPeople) = men.GetOutOfJail()
-    member x.InvestigateTheMurder(men:СPeople) = match men.Killing with
-                                                 | Some (murder) -> x.Arrest(!murder)
-                                                 | None -> printfn "%A" "Not die"
+type Cop(name:string) =
+    inherit GoodPeople(name)
+    member x.Arrest(men:BadPeople) = men.Arrested()
+    member x.RidOfJail(men:BadPeople) = men.GetOutOfJail()
+    member x.InvestigateTheMurder(men:People) = 
+        match men.Killing with
+        | Some (l) -> 
+            match !l with
+            | :? BadPeople as y -> x.Arrest y
+            | _ -> ()
+        | None -> printfn "%A" "Not die"
 
-type СDoctor(name:string) =
-    inherit СGoodPeople(name)
-    interface IСDoctor with
-        override x.Cure(men : IСPeople) = men.ChangeHealth 500
+type Doctor(name:string) =
+    inherit GoodPeople(name)
+    member x.Cure (men:People) = men.ChangeHealth 100
 
 
