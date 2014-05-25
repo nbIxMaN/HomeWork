@@ -56,7 +56,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy "$(ProjectDir)BotLibrary" "$(TargetDir)" /s /y /e /q</PreBuildEvent>
+    <PreBuildEvent>xcopy "$(ProjectDir)BotLibrary" "$(TargetDir)" /s /y /e</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
