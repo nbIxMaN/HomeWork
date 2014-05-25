@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>558a0c76-b9c6-4812-8f8a-0c186da14155</ProjectGuid>
+    <ProjectGuid>1a5fefe6-1dd5-4cd6-907b-214e23632b29</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleApplication7</RootNamespace>
-    <AssemblyName>ConsoleApplication7</AssemblyName>
+    <RootNamespace>imageFind</RootNamespace>
+    <AssemblyName>imageFind</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ConsoleApplication7</Name>
+    <Name>imageFind</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\ConsoleApplication7.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\imageFind.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\ConsoleApplication7.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\imageFind.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -47,9 +47,10 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="CPS.fs" />
     <Compile Include="WebR.fs" />
-    <Compile Include="image_find.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="App.config" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
