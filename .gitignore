@@ -3,4 +3,7 @@
 *pdb
 *XML
 *xml
-obj
+*suo
+*db
+obj/
+bin/
