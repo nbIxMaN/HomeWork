@@ -1,4 +1,7 @@
-﻿module Collection
+﻿// Aleksandr Pykhtin
+// 2014
+
+module Collection
 
 open System.Collections
 open System

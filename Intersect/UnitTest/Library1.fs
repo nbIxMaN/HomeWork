@@ -1,4 +1,7 @@
-﻿namespace UnitTest
+﻿// Aleksandr Pykhtin
+// 2014
+
+namespace UnitTest
 
 open Intersect
 open NUnit.Framework

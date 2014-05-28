@@ -1,4 +1,7 @@
-﻿module imageFind
+﻿// Aleksandr Pykhtin
+// 2014
+
+module imageFind
 open System
 
 let url_list = ["http://www.goodfon.ru/catalog/landscapes/";

@@ -1,4 +1,7 @@
-﻿module FormExample
+﻿// Aleksandr Pykhtin
+// 2014
+
+module Bot
 
 open System.Windows.Forms
 open System.Drawing

@@ -1,4 +1,7 @@
-﻿module Intersect
+﻿// Aleksandr Pykhtin
+// 2014
+
+module Intersect
 
 type Geom = NoPoint                  // пустое множество
            | Point of float * float   // точка

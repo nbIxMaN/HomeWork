@@ -1,4 +1,7 @@
-﻿namespace Disease
+﻿// Aleksandr Pykhtin
+// 2014
+
+namespace Disease
 
 [<AbstractClass>]
 type Disease(name:string) =

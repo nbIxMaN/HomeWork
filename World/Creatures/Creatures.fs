@@ -1,4 +1,7 @@
-﻿namespace Creatures
+﻿// Aleksandr Pykhtin
+// 2014
+
+namespace Creatures
 
 type Creature(name:string) =
     let mutable dead = false

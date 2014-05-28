@@ -1,4 +1,7 @@
-﻿module MapCPS
+﻿// Aleksandr Pykhtin
+// 2014
+
+module MapCPS
 
 let rec map x fact f =
     match x with

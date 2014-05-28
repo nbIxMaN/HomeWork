@@ -1,4 +1,7 @@
-﻿module World
+﻿// Aleksandr Pykhtin
+// 2014
+
+module World
 
 open Creatures
 open Disease
