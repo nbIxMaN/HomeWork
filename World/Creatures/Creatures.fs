@@ -20,10 +20,16 @@ type People(name:string) =
     member x.Health = health
     member x.Mood = mood
     member x.Killing = killing
-    override x.Die() = x.Die()
+    member private x.Kill() = (x:>Creature).Die
+    override x.Die() = x.Kill() |> ignore
                        health <- 0
-    member x.ChangeHealth y = health <- health + y
-    member x.ChangeMood y = mood <- mood + y
+    member x.ChangeHealth y = if x.IsDie then false
+                              else health <- health + y
+                                   if x.Health < 50 then health <- 50
+                                   true
+    member x.ChangeMood y = if x.IsDie then false
+                            else mood <- mood + y
+                                 true
     member internal x.DieBy(men:People) = 
         killing <- Some(ref men)
         x.Die()
@@ -36,45 +42,59 @@ type BadPeople(name:string) =
     member internal x.Arrested() = InArrest <- true
     member internal  x.GetOutOfJail() = InArrest <- false
     member x.IsArrest = InArrest
-    member x.Offend(men:People) = men.ChangeMood (men.Mood - 20)
-    
+    member x.Offend(men:People) = 
+        if x.IsDie || men.IsDie then false
+        else men.ChangeMood (men.Mood - 20)
 
 type Murder(name) = 
     inherit BadPeople(name)
     let luck = new System.Random(name.GetHashCode())
     member private x.HideTheEvidence(men:People) = men.ForgetKiller()
     member x.Kill (men:People) = 
-        if x.IsArrest then printfn "%A" "Arrested"
+        if x.IsArrest || men.IsDie || x.IsDie then false
         else men.DieBy(x)
-             men.ChangeHealth 0
              if luck.Next(10) > 8 then 
                 x.HideTheEvidence(men)
+             true
 
 type Brawlers(name) =
     inherit BadPeople(name)
     member x.Fight(men:People) = 
-        x.ChangeHealth (x.Health - 50)
-        men.ChangeHealth (men.Health - 70)
+        if x.IsDie then false
+        else x.ChangeHealth -50 |> ignore
+             men.ChangeHealth -70
 
 type GoodPeople(name:string) =
     inherit People(name)
-    member x.CheerUp(men:People) = men.ChangeMood (men.Mood + 20)
+    member x.CheerUp(men:People) = 
+        if x.IsDie || men.IsDie then false
+        else men.ChangeMood (men.Mood + 20)
 
 
 type Cop(name:string) =
     inherit GoodPeople(name)
-    member x.Arrest(men:BadPeople) = men.Arrested()
-    member x.RidOfJail(men:BadPeople) = men.GetOutOfJail()
+    member x.Arrest(men:BadPeople) = 
+        if x.IsDie || men.IsDie then false
+        else men.Arrested()
+             true
+    member x.RidOfJail(men:BadPeople) = 
+        if x.IsDie || men.IsDie then false
+        else men.GetOutOfJail()
+             true
     member x.InvestigateTheMurder(men:People) = 
-        match men.Killing with
-        | Some (l) -> 
-            match !l with
-            | :? BadPeople as y -> x.Arrest y
-            | _ -> ()
-        | None -> printfn "%A" "Not die"
+        if x.IsDie then false
+        else 
+            match men.Killing with
+            | Some (l) -> 
+                match !l with
+                | :? BadPeople as y -> x.Arrest y
+                | _ -> false
+            | None -> false
 
 type Doctor(name:string) =
     inherit GoodPeople(name)
-    member x.Cure (men:People) = men.ChangeHealth 100
+    member x.Cure (men:People) = 
+        if x.IsDie || men.IsDie then false
+        else men.ChangeHealth 100
 
 
