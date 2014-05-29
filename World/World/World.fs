@@ -12,15 +12,21 @@ type VillagePeople(name:string) =
     let mutable parasite = None
     let mutable hideparasite = None
     member internal x.BeingACarrier() = 
-        hideparasite <- parasite
-        parasite <- None
+        if x.IsDie || parasite = None then false
+        else
+            hideparasite <- parasite
+            parasite <- None
+            true
     member internal x.Recedive() = 
-        parasite <- hideparasite
-        hideparasite <- None
-        match parasite with
-            | Some(illness:Parasite) -> 
-                if illness.Strange*10 > x.Health then x.Die()
-            | None -> ()
+        if x.IsDie || hideparasite = None then false
+        else
+            parasite <- hideparasite
+            hideparasite <- None
+            match parasite with
+                | Some(illness:Parasite) -> 
+                    if illness.Strange*10 > x.Health then x.Die()
+                | None -> ()
+            true
     member x.CatchInfection (illness:Infection) = 
         if x.IsDie then false
         else
@@ -32,7 +38,7 @@ type VillagePeople(name:string) =
         else
             parasite <- Some(illness)
             if illness.Strange*10 > x.Health then x.Die()
-            if illness.Strange*10 > x.Health/5 then x.BeingACarrier()
+            if illness.Strange*10 > x.Health/5 then x.BeingACarrier() |> ignore
             true
     member private x.ThrowOffAnIllness() = 
         match parasite with
