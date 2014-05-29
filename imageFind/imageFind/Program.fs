@@ -9,7 +9,7 @@ let url_list = ["http://www.goodfon.ru/catalog/landscapes/";
                 "http://www.goodfon.ru/catalog/landscapes/"
                 "http://vk.com/durov"]
 
-let rec getImageList f =
+let rec ImageList f =
 
     let imageFind f = 
         let index (f:string) (x:int) = f.IndexOf ("<img src=", x)
@@ -34,10 +34,18 @@ let rec getImageList f =
         if (imageFind f).Length > 5 then imageList (imageFind f) f
                                     else []
     match f with
-    | head::tail -> checkNumber head :: getImageList tail
+    | head::tail -> checkNumber head :: ImageList tail
     |[] -> []
 
 
-let x = MapCPS.map url_list WebR.getUrl (fun x -> printfn "%A" (Seq.distinct (getImageList x)))
+let getImageList list f=
+    let flag = ref false
+    let rec wait() = 
+        if not !flag then System.Threading.Thread.Sleep(100)
+                          wait()
 
-System.Console.ReadLine() |> ignore
+    let x = MapCPS.map list WebR.getUrl (fun x -> f (Seq.distinct (ImageList x))
+                                                  flag:= true)
+    wait()
+
+getImageList url_list (printfn "%A")
