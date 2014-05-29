@@ -13,6 +13,7 @@ type Disease(name:string) =
     member x.Stability = stability
     member x.Multiply () = strange <- strange + 1
     member x.Fall() = strange <- strange - 1
+    member x.Name = name
 
 type Infection(name:string) = 
      inherit Disease(name)

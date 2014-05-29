@@ -11,6 +11,9 @@ type VillagePeople(name:string) =
     let mutable infection = None
     let mutable parasite = None
     let mutable hideparasite = None
+    member private x.GetInfection() = infection
+    member private x.GetParasite() = parasite
+    member private x.GetHideParasite() = hideparasite
     member internal x.BeingACarrier() = 
         if x.IsDie || parasite = None then false
         else
@@ -51,32 +54,62 @@ type VillagePeople(name:string) =
             if illness.Stability > 5 then (illness:>Disease).Fall()
             else infection <- None
         | None -> ()
-    member x.Infected = infection <> None || parasite <> None
+    member private x.Infected() = infection,parasite,hideparasite
+    member x.Ill =
+        let getName a =
+            match a with
+            | Some(infection) -> (infection:>Disease).Name
+            | None -> "NOT DETECTED"
+        let (infection, parasite, hideparasite) = x.Infected()
+        "infection " + getName infection + ", " +
+        "parasite " + getName parasite + ", " +
+        "hide Parasite " + getName hideparasite
+        
     member x.TalkWith (men:VillagePeople) = 
-        if (men.Health < 100) && (x.Infected) 
-            then 
-                 match infection with
-                 | Some(illness) -> (illness:>Disease).Multiply()
-                                    men.CatchInfection(illness) |> ignore                                
-                 | None -> ()
-                 true
-            else false
+        if x.IsDie then false
+        else
+            if men.Health < 100 && x.Infected() <> (None, None, None)
+                then 
+                    match x.GetInfection() with
+                    | Some(illness) -> (illness:>Disease).Multiply()
+                                       men.CatchInfection(illness) |> ignore                                
+                    | None -> ()
+            if x.Health< 100 && men.Infected() <> (None, None, None)
+                then
+                    match men.GetInfection() with
+                    | Some(illness) -> (illness:>Disease).Multiply()
+                                       x.CatchInfection(illness) |> ignore                                
+                    | None -> ()
+            true
+
     member x.Hug (men:VillagePeople) = 
-        if (men.Health < 100) && ((x.Infected) || (hideparasite <> None)) 
-            then 
-                 match infection with
-                 | Some(illness) -> illness.Multiply()
-                                    men.CatchInfection(illness) |> ignore                             
-                 | None -> ()
-                 match parasite with
-                 | Some(illness) -> illness.Multiply()
-                                    men.CatchParasite(illness) |> ignore  
-                 | None -> ()
-                 match hideparasite with
-                 | Some(illness) -> men.CatchParasite(illness) |> ignore  
-                 | None -> ()
-                 true
-            else false
+        if x.IsDie then false
+        else
+            if men.Health < 100 && x.Infected() <> (None, None, None) then 
+                    match x.GetInfection() with
+                    | Some(illness) -> illness.Multiply()
+                                       men.CatchInfection(illness) |> ignore                             
+                    | None -> ()
+                    match x.GetParasite() with
+                    | Some(illness) -> illness.Multiply()
+                                       men.CatchParasite(illness) |> ignore  
+                    | None -> ()
+                    match x.GetHideParasite() with
+                    | Some(illness) -> men.CatchParasite(illness) |> ignore  
+                    | None -> ()
+            if x.Health < 100 && men.Infected() <> (None, None, None) then
+                    match men.GetInfection() with
+                    | Some(illness) -> illness.Multiply()
+                                       x.CatchInfection(illness) |> ignore                             
+                    | None -> ()
+                    match men.GetParasite() with
+                    | Some(illness) -> illness.Multiply()
+                                       x.CatchParasite(illness) |> ignore  
+                    | None -> ()
+                    match men.GetHideParasite() with
+                    | Some(illness) -> x.CatchParasite(illness) |> ignore  
+                    | None -> ()
+            true
                                                                                                                                                  
     member x.GoDoctor(men:Doctor) = 
         if x.IsDie || men.IsDie then false
@@ -128,8 +161,10 @@ if Mia.Fight(Semen) then printfn "%A" "Semen get damage"
 if Mia.Fight(Semen) then printfn "%A" "Semen get damage"
 if Mia.Fight(Semen) then printfn "%A" "Semen get damage"
 if Mia.Fight(Semen) then printfn "%A" "Semen get damage"
-if Bob.TalkWith(Semen) then printfn "%A" "Bob infect Semen"
-if Lesha.Hug(Semen) then printfn "%A" "Lesha infect Semen"
+if Bob.TalkWith(Semen) then printfn "%A" "Hello my friend"
+printfn "%A" Semen.Ill
+if Lesha.Hug(Semen) then printfn "%A" "Lesha hugs Semen"
+printfn "%A" Semen.Ill
 if Semen.GoDoctor(Max) then printfn "%A" "Semen recovered"
 if Mia.Fight(Samantha) then printfn "%A" "Mia fight with Cop Samantha"
 if Samantha.Arrest(Mia) then printfn "%A" "Samantha arrested Mia"
