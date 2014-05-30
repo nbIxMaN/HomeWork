@@ -9,7 +9,7 @@ let url_list = ["http://www.goodfon.ru/catalog/landscapes/";
                 "http://www.goodfon.ru/catalog/landscapes/"
                 "http://vk.com/durov"]
 
-let rec ImageList urlList =
+let rec uniqImageList urlList =
 
     let imageFind url = 
         let index (url:string) (x:int) = url.IndexOf ("<img src=", x)
@@ -27,8 +27,7 @@ let rec ImageList urlList =
 
     let imageList url = Seq.distinct (Seq.map (fun x -> copy x url) (imageFind url))
 
-    Seq.map (fun z -> Seq.toList z) (Seq.filter (fun y -> Seq.length y > 5) (Seq.map (fun x -> imageList x) urlList))
-
+    Seq.toList (Seq.concat (Seq.filter (fun y -> Seq.length y > 5) (Seq.map (fun x -> imageList x) urlList)))
 
 let getImageList list f=
     let flag = ref false
@@ -36,7 +35,7 @@ let getImageList list f=
         if not !flag then System.Threading.Thread.Sleep(100)
                           wait()
 
-    let x = MapCPS.map list WebR.getUrl (fun x -> f (ImageList x)
+    let x = MapCPS.map list WebR.getUrl (fun x -> f (uniqImageList x)
                                                   flag:= true)
     wait()
 
