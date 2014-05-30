@@ -182,7 +182,7 @@ type Map<'key, 'value when 'key: comparison and 'value: equality> =
             let moveNext() =
                 if !IsInit then NodeList := (!NodeList).Tail
                            else IsInit:=true
-                (!NodeList).IsEmpty
+                not (!NodeList).IsEmpty
             let current() = 
                 if !IsInit then
                     if (!NodeList).IsEmpty then AlreadyFinished()
@@ -268,3 +268,5 @@ printfn "%A" n.Current
 printfn "%A" (y.GetHashCode())
 printfn "%A" (x.GetHashCode())
 printfn "%A" (z.GetHashCode())
+
+for i in y do printfn "%A" i
