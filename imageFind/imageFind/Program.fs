@@ -9,33 +9,25 @@ let url_list = ["http://www.goodfon.ru/catalog/landscapes/";
                 "http://www.goodfon.ru/catalog/landscapes/"
                 "http://vk.com/durov"]
 
-let rec ImageList f =
+let rec ImageList urlList =
 
-    let imageFind f = 
-        let index (f:string) (x:int) = f.IndexOf ("<img src=", x)
-        let rec imageFound (f:string) x = 
-            let s = index f x
+    let imageFind url = 
+        let index (url:string) (x:int) = url.IndexOf ("<img src=", x)
+        let rec imageFound (url:string) x = 
+            let s = index url x
             if s = -1 then []
-                    else s::imageFound f (s+1)
-        imageFound f 0
+                    else s::imageFound url (s+1)
+        imageFound url 0
 
-    let copy position (f:string) = 
-        let start = f.IndexOf('"', position) + 1
-        let stop = f.IndexOf('"', start + 1) - 1
-        if stop < 0 then f.[start..(string f).Length - 1]
-                    else f.[start..stop]
+    let copy position (url:string) = 
+        let start = url.IndexOf('"', position) + 1
+        let stop = url.IndexOf('"', start + 1) - 1
+        if stop < 0 then url.[start..url.Length - 1]
+                    else url.[start..stop]
 
-    let rec imageList l f= 
-            match l with
-            |head::tail -> copy head f::imageList tail f
-            |[] ->  []
+    let imageList url = Seq.distinct (Seq.map (fun x -> copy x url) (imageFind url))
 
-    let checkNumber f =   
-        if (imageFind f).Length > 5 then imageList (imageFind f) f
-                                    else []
-    match f with
-    | head::tail -> checkNumber head :: ImageList tail
-    |[] -> []
+    Seq.map (fun z -> Seq.toList z) (Seq.filter (fun y -> Seq.length y > 5) (Seq.map (fun x -> imageList x) urlList))
 
 
 let getImageList list f=
@@ -44,7 +36,7 @@ let getImageList list f=
         if not !flag then System.Threading.Thread.Sleep(100)
                           wait()
 
-    let x = MapCPS.map list WebR.getUrl (fun x -> f (Seq.distinct (ImageList x))
+    let x = MapCPS.map list WebR.getUrl (fun x -> f (ImageList x)
                                                   flag:= true)
     wait()
 
