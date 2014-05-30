@@ -12,7 +12,7 @@ type Tree<'key, 'value> =
 
 let getLeftBranch = function
     | Node(left, _, _, _, _) -> left
-    | Empty -> Empty
+    | Empty -> failwith "Left branch not found"
 
 let getKey = function
     | Node(_, key, _, _, _) -> key
@@ -28,7 +28,7 @@ let getLength = function
 
 let getRightBranch = function
     | Node(_, _, _, _, right) -> right
-    | Empty -> Empty
+    | Empty -> failwith "Rigth branch not found"
 
 let rec find t key =
     match t with
@@ -38,7 +38,8 @@ let rec find t key =
         else t
     | Empty -> Empty
 
-let BuildNode leftNode key value rightNode = Node(leftNode, key, value, max (getLength leftNode) (getLength rightNode) + 1, rightNode)
+let BuildNode leftNode key value rightNode = 
+    Node(leftNode, key, value, max (getLength leftNode) (getLength rightNode) + 1, rightNode)
 
 let rec GetLength acc tree = 
     match tree with
@@ -212,7 +213,8 @@ type Map<'key, 'value when 'key: comparison and 'value: equality> =
 
     member this.Item (key) =
         match find this.tree key with
-        | Empty -> raise (new System.Collections.Generic.KeyNotFoundException("Key Not Found"))
+        | Empty -> 
+            raise (new System.Collections.Generic.KeyNotFoundException("Key Not Found"))
         | Node(_, _, value, _, _) -> value
 
     member this.Remove (key) =
@@ -226,7 +228,8 @@ type Map<'key, 'value when 'key: comparison and 'value: equality> =
     override this.ToString() =
         let rec tostring tree =
             match tree with
-            | Node(left, key, value, _, rigth) -> (tostring left) + key.ToString() + " " + value.ToString() + " " + (tostring rigth)
+            | Node(left, key, value, _, rigth) -> 
+                (tostring left) + key.ToString() + " " + value.ToString() + " " + (tostring rigth)
             | Empty -> ""
         tostring this.tree
 
@@ -242,13 +245,14 @@ type Map<'key, 'value when 'key: comparison and 'value: equality> =
         let thisList = GetList (this.tree)
         let rec hashCode list acc = 
             match list with
-            | (key, value)::tail -> ((acc + (key.GetHashCode() - value.GetHashCode()) % 14863923) % 91823628 + hashCode tail acc) % 1379879782
+            | (key, value)::tail -> 
+                ((acc + (key.GetHashCode() - value.GetHashCode()) % 14863923) % 91823628 + hashCode tail acc) % 1379879782
             | [] -> acc
         hashCode thisList 0
 
 let x = new Map<_,_> ([(5, "a"); (4, "5"); (8, "dsfsdfjoidsfjsdflkjsdflk")])
 printfn "%A" x.Count
-let y = x.Add(5,"RERER")
+let y = x.Add(1,"RERER")
 let z = y.Remove 3
 printfn "%A" y.Count
 printfn "%A" (y.Item(8).ToString())
