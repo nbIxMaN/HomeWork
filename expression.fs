@@ -50,7 +50,7 @@ arithm (Sub (Const(2), Const (13)))
 
 let x = (Add (Sub (Const 2, Const  2), Add (Var "x", Const 0)))
 
-let y = (Add (Add (Const 1, Const 2), Add (Var "a", Const 0)))
+let y = (Add (Add (Const 1, Const 2), Add ((Add (Const 1, Const 2), Const 1))))
 
 let z = (Add (Add (Const 1, Const 2), Mul (Const 0, Const 0)))
 
