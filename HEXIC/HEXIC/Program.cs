@@ -459,7 +459,7 @@ namespace HEXIC
                     added = true;
                 }
             }
-            return score;
+            return (int) Math.Pow(2, (score - 3));
         }
     }
 
