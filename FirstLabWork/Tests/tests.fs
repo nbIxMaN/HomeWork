@@ -17,6 +17,11 @@ type Wind (power : int) =
     interface IWind with
         member x.power = power
 
+type TestWind() =
+    let rand = System.Random();
+    interface IWind with
+        member x.power = rand.Next() % 11
+
 type Courier(courierType : CourierType) = 
     let mutable xcourier = Daemon
     interface ICourier with
@@ -102,6 +107,20 @@ let creatureTest(time : DaylightType, lum : bool, windPower : int) =
 [<Test>]
 let CreatureTest() =
     FsCheck.Check.Quick(creatureTest)
+
+let creatureTest2(time : DaylightType, lum : bool, windPower : int) =
+    let normalizeWind = abs(windPower) % 11
+    let dayligth = new Dayligth(time)
+    let luminary = new Luminary(lum)
+    let wind = new TestWind()
+    let cloud = Cloud(dayligth, luminary, mockWind, mockMagic)
+    let baby = cloud.Create()
+    let rightBaby = rightCreature(time, lum, normalizeWind)
+    mockWind.Received(1).power |> ignore
+
+[<Test>]
+let CreatureTest2() =
+    FsCheck.Check.Quick(creatureTest2)
 //    creatureTest(Day, false, 21) |> should be True
     
 
