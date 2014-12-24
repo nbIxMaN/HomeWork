@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "tests", "tests\tests.fsproj", "{5FFE23A3-5E30-47E9-AE66-28FE815834E2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "shop", "shop\shop.fsproj", "{7AFACD3B-C70E-4320-885D-DA7125EED045}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "customer", "customer\customer.fsproj", "{E5A5A9AE-2D3E-4718-906E-2E0308A8A23A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FFE23A3-5E30-47E9-AE66-28FE815834E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFE23A3-5E30-47E9-AE66-28FE815834E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFE23A3-5E30-47E9-AE66-28FE815834E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFE23A3-5E30-47E9-AE66-28FE815834E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AFACD3B-C70E-4320-885D-DA7125EED045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AFACD3B-C70E-4320-885D-DA7125EED045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AFACD3B-C70E-4320-885D-DA7125EED045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AFACD3B-C70E-4320-885D-DA7125EED045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A5A9AE-2D3E-4718-906E-2E0308A8A23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A5A9AE-2D3E-4718-906E-2E0308A8A23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A5A9AE-2D3E-4718-906E-2E0308A8A23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A5A9AE-2D3E-4718-906E-2E0308A8A23A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
