@@ -27,8 +27,8 @@ namespace HEXIC
     {
         public Pair dot;
         public RotationType rotation;
-        public int score;
-        public Rotation(Pair x, RotationType y, int z)
+        public long score;
+        public Rotation(Pair x, RotationType y, long z)
         {
             dot = x;
             rotation = y;
@@ -61,7 +61,7 @@ namespace HEXIC
             }
             foreach (Pair number in GetEnumerator())
             {
-                map[number.first][number.second] = r.Next(15)+1;
+                map[number.first][number.second] = r.Next(7)+1;
             }
         }
         public IEnumerable<Pair> GetEnumerator()
@@ -288,7 +288,7 @@ namespace HEXIC
                     {
                         map[s][number.second] = map[s -= 2][number.second];
                     }
-                    map[s][number.second] = r.Next(15) + 1;
+                    map[s][number.second] = r.Next(7) + 1;
                 }
             }
         }
@@ -459,7 +459,7 @@ namespace HEXIC
                     added = true;
                 }
             }
-            return (int) Math.Pow(2, (score - 3));
+            return score;
         }
     }
 
@@ -470,11 +470,11 @@ namespace HEXIC
             Map map = new Map();
             Player p = new Player(map);
             Rotation rotation = new Rotation();
-            int totalScore = 0;
-            int score = 0;
+            long totalScore = 0;
+            long score = 0;
             p.PrepareMap();
-            System.Console.WriteLine();
-            System.Console.WriteLine(p.Find(new Pair(1, 2)));
+//            System.Console.WriteLine();
+//            System.Console.WriteLine(p.Find(new Pair(1, 2)));
             do
             {
                 rotation = new Rotation();
