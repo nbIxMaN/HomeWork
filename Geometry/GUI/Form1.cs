@@ -27,7 +27,7 @@ namespace GUI
                 string coordinates = Points.Text;
                 foreach (string point in coordinates.Split(';'))
                 {
-                    double doubleX = Convert.ToDouble(point.Split(',')[0]);
+                    double doubleX = Convert.ToDouble(point.Split(',')[0]);тейлор
                     double doubleY = Convert.ToDouble(point.Split(',')[1]);
                     int x = Convert.ToInt32(Math.Round(doubleX, 0));
                     int y = Convert.ToInt32(Math.Round(doubleY, 0));

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Покупка</title>
+</head>
+<body>
+    <div>
+        <h3>Переводчик</h3>
+        <form method="post">
+            <input type="hidden" value="@ViewBag.BookId" name="BookId" />
+            <table>
+                <tr>
+                    <td><p>Введите текст </p></td>
+                    <td><input type="text" name="Text" /> </td>
+                </tr>
+                <tr>
+                    <td><p>Введите язык (en, ru, fr) :</p></td>
+                    <td>
+                        <input type="text" name="Lang" />
+                    </td>
+                </tr>
+                <tr><td><input type="submit" value="Перевести"/> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
