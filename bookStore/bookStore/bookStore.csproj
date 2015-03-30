@@ -142,6 +142,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\cooltranslater2.pubxml" />
     <None Include="Properties\PublishProfiles\nbIxMaN.pubxml" />
     <None Include="Properties\PublishProfiles\translater.pubxml" />
   </ItemGroup>
