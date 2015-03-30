@@ -28,7 +28,6 @@ namespace BookStore.Controllers
             int beg = Out.IndexOf("[")+2;
             int end = Out.IndexOf("]")-2;
             Out = Out.Substring(beg, end-beg+1);
-            // добавляем информацию о покупке в базу данных
             return Out;
         }
     }
