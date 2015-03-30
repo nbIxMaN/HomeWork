@@ -11,17 +11,6 @@ namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
-        // создаем контекст данных
-
-        //public ActionResult Index()
-        //{
-        //    // получаем из бд все объекты Book
-        //    IEnumerable<Translate> books = db.Translate;
-        //    // передаем все полученный объекты в динамическое свойство Books в ViewBag
-        //    ViewBag.Books = books;
-        //    // возвращаем представление
-        //    return View();
-        //}
         public ActionResult Index()
         {
             return View();
