@@ -142,9 +142,8 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\cooltranslater2.pubxml" />
     <None Include="Properties\PublishProfiles\nbIxMaN.pubxml" />
-    <None Include="Properties\PublishProfiles\translater.pubxml" />
+    <None Include="Properties\PublishProfiles\Transla.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@using BookStore.Models
+@{
     Layout = null;
 }
 
@@ -16,12 +17,17 @@
             <table>
                 <tr>
                     <td><p>Введите текст </p></td>
-                    <td><input type="text" name="Text" /> </td>
+                    <td> <textarea name="text" rows="5" cols="60" maxlength="60">@ViewBag.ToTranslate</textarea> </td>
+                    <td> <textarea name="text" rows="5" cols="60" maxlength="60" disabled>@ViewBag.Translated</textarea></td>
                 </tr>
                 <tr>
-                    <td><p>Введите язык (en, ru, fr) :</p></td>
+                    <td></td>
                     <td>
-                        <input type="text" name="Lang" />
+                        <select name="lang" size="1">
+                            <option selected value="en">Английский
+                            <option value="ru">Русский
+                            <option value="fr">Французский
+                        </select>
                     </td>
                 </tr>
                 <tr><td><input type="submit" value="Перевести"/> </td><td></td></tr>

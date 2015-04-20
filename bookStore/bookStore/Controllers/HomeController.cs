@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using BookStore.Models;
 using System.Net;
 using System.IO;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace BookStore.Controllers
 {
@@ -15,20 +17,38 @@ namespace BookStore.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public string Index(ToTranslate toTranslate)
+
+        public ActionResult Translate()
         {
-            string text = toTranslate.Text;
-            string lang = toTranslate.Lang;
-            WebRequest req = WebRequest.Create("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20150315T085331Z.3aae60473b16efea.8c82912cc2329d14afdfaf470f665ed90b736b6b&text="+text+"&lang="+lang);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(ToTranslate toTranslate)
+        {
+            toTranslate.key = "trnsl.1.1.20150315T085331Z.3aae60473b16efea.8c82912cc2329d14afdfaf470f665ed90b736b6b";
+            if (toTranslate.text == null)
+            {
+                ViewBag.Translated = "Пожалуйста введите текст для перевода";
+                return View("Index");
+            }
+            string Url = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+            var obj = JsonConvert.SerializeObject(toTranslate);
+            obj = obj.Replace("\":\"", "=");
+            obj = obj.Replace("\",\"", "&");
+            obj = obj.Substring(2, obj.Length - 4);
+            WebRequest req = WebRequest.Create(Url + "?" + obj);
             WebResponse resp = req.GetResponse();
             Stream stream = resp.GetResponseStream();
             StreamReader sr = new StreamReader(stream);
             string Out = sr.ReadToEnd();
-            int beg = Out.IndexOf("[")+2;
-            int end = Out.IndexOf("]")-2;
-            Out = Out.Substring(beg, end-beg+1);
-            return Out;
+            sr.Close();
+            dynamic translated = JsonConvert.DeserializeObject(Out);
+            ViewBag.ToTranslate = toTranslate.text;
+            string str = (translated.text).ToString();
+            str = str.Replace("[\r\n  \"", "");
+            str = str.Replace("\"\r\n]", "");
+            ViewBag.Translated = str;
+            return View("Index");
         }
     }
 

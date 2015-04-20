@@ -4,7 +4,8 @@ namespace BookStore.Models
 {
     public class ToTranslate
     {
-        public string Text { get; set; }
-        public string Lang { get; set; }
+        public string key { get; set; }
+        public string text { get; set; }
+        public string lang { get; set; }
     }
 }
