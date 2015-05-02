@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +19,7 @@ namespace UnitTestProject1
         const string AddEventUrl = "api/Events";
         const string AddCommentUrl = "api/eventComments";
         const string SubscribeUrl = "api/Friends";
-//        private string token = "";
+        private string token = "";
         [TestMethod]
         public void GetEventsList()
         {
@@ -126,6 +127,105 @@ namespace UnitTestProject1
                 if (!f)
                 {
                     Assert.Fail("In f list");
+                }
+            }
+            catch (WebException we)
+            {
+                Assert.Fail(we.Message);
+            }
+        }
+
+        [TestMethod]
+        public void AddEvent()
+        {
+            bool s = false;
+            var Wc = new WebClient();
+            Wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+            var firstdata = "grant_type=password&username=" + "TestUserName" + "&password=" + "TestPassword361";
+            var result1 = Wc.UploadString(SiteUrl + TokenUrl, firstdata);
+            JObject o1 = JObject.Parse(result1);
+            var token = o1["access_token"].Value<string>();
+            Wc = new WebClient();
+            Wc.Encoding = Encoding.UTF8;
+            Wc.Headers.Add("Content-Type", "application/json");
+            Wc.Headers.Add("Authorization", "Bearer " + token);
+            var time = System.DateTime.Now.ToString("u");
+            var data = JsonConvert.SerializeObject(new
+            {
+                Latitude = 76,
+                Longitude = 92,
+                Description = "TestEvent",
+                EventDate = time,
+            });
+            try
+            {
+                var result = Wc.UploadString(SiteUrl + AddEventUrl, data);
+                string events = Wc.DownloadString(SiteUrl + GetEventsUrl);
+                dynamic eventsList = JsonConvert.DeserializeObject(events);
+                foreach (var i in eventsList)
+                {
+                    if ((i.Latitude == "76") && (i.Longitude == "92") && (i.Description == "TestEvent") && (i.EventDate == time))
+                    {
+                        s = true;
+                    }
+                }
+                if (!s)
+                {
+                    Assert.Fail("Event not added");
+                }
+            }
+            catch (WebException we)
+            {
+                Assert.Fail(we.Message);
+            }
+        }
+
+        [TestMethod]
+        public void AddComets()
+        {
+            try
+            {
+                bool s = false;
+                var Wc = new WebClient();
+                Wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                var firstdata = "grant_type=password&username=" + "TestUserName" + "&password=" + "TestPassword361";
+                var result1 = Wc.UploadString(SiteUrl + TokenUrl, firstdata);
+                JObject o1 = JObject.Parse(result1);
+                var token = o1["access_token"].Value<string>();
+                Wc = new WebClient();
+                Wc.Encoding = Encoding.UTF8;
+                Wc.Headers.Add("Content-Type", "application/json");
+                Wc.Headers.Add("Authorization", "Bearer " + token);
+                string events = Wc.DownloadString(SiteUrl + GetEventsUrl);
+                dynamic eventsList = JsonConvert.DeserializeObject(events);
+                var Id = eventsList.First.EventId;
+                var data = JsonConvert.SerializeObject(new
+                {
+                    Text = "TextComment",
+                    EntityId = Id.ToString()
+                });
+                var result = Wc.UploadString(SiteUrl + AddCommentUrl, data);
+                dynamic comment = JsonConvert.DeserializeObject(result);
+                var CommentId = comment.CommentId;
+                eventsList = JsonConvert.DeserializeObject(result);
+                foreach (var i in eventsList)
+                {
+                    if (i.EntityId == Id)
+                    {
+                        foreach (var j in i.LastComments)
+                        {
+                            var a = j.CommentId;
+                            var b = j.Text;
+                            if ((j.Text == "TextComments") && (j.CommentId == CommentId))
+                            {
+                                s = true;
+                            }
+                        }
+                    }
+                }
+                if (!s)
+                {
+                    Assert.Fail("Comments not added");
                 }
             }
             catch (WebException we)
