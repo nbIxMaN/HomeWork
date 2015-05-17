@@ -140,25 +140,6 @@ namespace UnitTestProject1
                 var st2 = SiteUrl + SubscribeUrl + "/Follow/" + 41;
                 result = FirstWc.UploadString(st1, "");
                 Check(FirstWc, "s", SecondWc, "f");
-                //result = FirstWc.DownloadString(SiteUrl + "api/Friends/List/my/s");
-                //dynamic s1 = JsonConvert.DeserializeObject(result);
-                //result = FirstWc.DownloadString(SiteUrl + "api/Friends/List/38/f");
-                //dynamic s2 = JsonConvert.DeserializeObject(result);
-                ////System.Console.WriteLine(s.First);
-                //foreach (var i in s1)
-                //{
-                //    if (i.UserName == "nbIxMaN")
-                //    {
-                //        s = true;
-                //    }
-                //}
-                //foreach (var i in s2)
-                //{
-                //    if (i.UserName == "TestUserName")
-                //    {
-                //        f = true;
-                //    }
-                //}
                 result = SecondWc.UploadString(st2, "");
                 Check(FirstWc, "m", SecondWc, "m");
                 result = FirstWc.UploadString(SiteUrl + SubscribeUrl + "/Unfollow/" + 38, "");
@@ -251,23 +232,15 @@ namespace UnitTestProject1
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
-                //client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
                 var content = new StringContent(sdata, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(SiteUrl
                                         + "api/Endpoints/SaveUploadedFile/AddEvent", content).Result;
                 sdata = response.Content.ReadAsStringAsync().Result;
                 photoIds = JArray.Parse(sdata).Select(tok => (tok as JObject)["Id"].Value<string>()).ToArray();
-                /*EventsListView.Items.AddRange(JArray.Parse(result).Select(tok =>
-                {
-                    var descr = (tok as JObject)["Description"].Value<string>();
-                    var id = (tok as JObject)["EventId"].Value<int>();
-                    return new ListViewItem { Text = descr, Tag = id };
-                }).ToArray());*/
             }
             try
             {
                 var time = System.DateTime.Now.ToString("u");
-                //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
                 var data = JsonConvert.SerializeObject(new
                 {
                     Latitude = 76,
@@ -276,7 +249,6 @@ namespace UnitTestProject1
                     EventDate = time,
                     PhotoIds = photoIds
                 });
-                //data = data.Replace(@"\\", @"\");
                 var result = Wc.UploadString(SiteUrl + AddEventUrl, data);
             }
             catch(WebException we)
@@ -297,31 +269,33 @@ namespace UnitTestProject1
                 var result1 = Wc.UploadString(SiteUrl + TokenUrl, firstdata);
                 JObject o1 = JObject.Parse(result1);
                 var token = o1["access_token"].Value<string>();
-                Wc = new WebClient();
                 Wc.Encoding = Encoding.UTF8;
                 Wc.Headers.Add("Content-Type", "application/json");
-                Wc.Headers.Add("Authorization", "Bearer " + token);
                 string events = Wc.DownloadString(SiteUrl + GetEventsUrl);
                 dynamic eventsList = JsonConvert.DeserializeObject(events);
-                var Id = eventsList.First.EventId;
+                int Id = eventsList.First.EventId;
+                Wc.Headers.Add("Content-Type", "application/json");
+                Wc.Headers.Add("Authorization", "Bearer " + token);
                 var data = JsonConvert.SerializeObject(new
                 {
                     Text = "TextComment",
-                    EntityId = Id.ToString()
+                    EntityId = Id.ToString(),
                 });
                 var result = Wc.UploadString(SiteUrl + AddCommentUrl, data);
                 dynamic comment = JsonConvert.DeserializeObject(result);
-                var CommentId = comment.CommentId;
-                eventsList = JsonConvert.DeserializeObject(result);
+                int CommentId = comment.CommentId;
+                Wc.Headers.Add("Content-Type", "application/json");
+                events = Wc.DownloadString(SiteUrl + GetEventsUrl);
+                eventsList = JsonConvert.DeserializeObject(events);
                 foreach (var i in eventsList)
                 {
-                    if (i.EntityId == Id)
+                    if (i.EventId == Id)
                     {
                         foreach (var j in i.LastComments)
                         {
                             var a = j.CommentId;
                             var b = j.Text;
-                            if ((j.Text == "TextComments") && (j.CommentId == CommentId))
+                            if ((j.Text == "TextComment") && (j.CommentId == CommentId))
                             {
                                 s = true;
                             }
